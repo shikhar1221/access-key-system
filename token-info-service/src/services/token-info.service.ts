@@ -28,6 +28,12 @@ export class TokenInfoService {
     let isRateLimited = false;
     let errorMessage: string | undefined;
 
+    // Explicitly check for missing API key
+    if (!apiKey) {
+      this.logger.warn(`[getTokenInfo] API Key is missing`);
+      throw new InvalidApiKeyException('API Key is missing');
+    }
+
     try {
       // Fetch key validation and mock token data concurrently
       const [keyInfo, tokenData] = await Promise.all([

@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
+import { Injectable, OnModuleInit, Logger, OnApplicationShutdown } from '@nestjs/common';
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Redis } from 'ioredis';
 import { DuplicatedKeysService } from './duplicated-keys.service';
@@ -8,8 +8,9 @@ import { KeyManagementEvent, KeyManagementEventPayload } from '../shared/interfa
 const KEY_MANAGEMENT_CHANNEL = 'access_key_events';
 
 @Injectable()
-export class AccessKeySubscriberService implements OnModuleInit {
+export class AccessKeySubscriberService implements OnModuleInit, OnApplicationShutdown {
   private readonly logger = new Logger(AccessKeySubscriberService.name);
+  private subscriberClient: Redis; // Add property to store subscriber client
 
   constructor(
     @InjectRedis() private readonly redisClient: Redis,
@@ -21,9 +22,9 @@ export class AccessKeySubscriberService implements OnModuleInit {
   }
 
   private subscribeToKeyEvents() {
-    const subscriber = this.redisClient.duplicate();
+    this.subscriberClient = this.redisClient.duplicate(); // Store the duplicated client
 
-    subscriber.subscribe(KEY_MANAGEMENT_CHANNEL, (err, count) => {
+    this.subscriberClient.subscribe(KEY_MANAGEMENT_CHANNEL, (err, count) => {
       if (err) {
         this.logger.error(`Failed to subscribe to ${KEY_MANAGEMENT_CHANNEL}: ${err.message}`);
         return;
@@ -31,7 +32,7 @@ export class AccessKeySubscriberService implements OnModuleInit {
       this.logger.log(`Subscribed to ${KEY_MANAGEMENT_CHANNEL}. Listening for messages... (${count} channels)`);
     });
 
-    subscriber.on('message', (channel, message) => {
+    this.subscriberClient.on('message', (channel, message) => {
       if (channel === KEY_MANAGEMENT_CHANNEL) {
         this.logger.log(`Received message from ${channel}: ${message}`);
         try {
@@ -47,6 +48,15 @@ export class AccessKeySubscriberService implements OnModuleInit {
         }
       }
     });
+  }
+
+  // Implement onApplicationShutdown hook
+  async onApplicationShutdown(signal?: string) {
+    this.logger.log(`Handling shutdown signal: ${signal}`);
+    if (this.subscriberClient && this.subscriberClient.status !== 'end') {
+      await this.subscriberClient.quit(); // Close the subscriber client
+      this.logger.log('Redis subscriber client closed.');
+    }
   }
 
   private async handleKeyEvent(event: KeyManagementEvent) {
