@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { AccessKeyRepository } from '../repositories/access-key.repository';
 import { AccessKey } from '../entities/access-key.entity';
 import { CreateAccessKeyDto } from '../dto/create-access-key.dto';
@@ -7,7 +8,7 @@ export declare class AccessKeysService {
     private readonly accessKeyRepository;
     private readonly accessKeyPublisherService;
     private readonly logger;
-    constructor(accessKeyRepository: AccessKeyRepository, accessKeyPublisherService: AccessKeyPublisherService);
+    constructor(accessKeyRepository: AccessKeyRepository, accessKeyPublisherService: AccessKeyPublisherService, logger: Logger);
     createKey(createAccessKeyDto: CreateAccessKeyDto): Promise<AccessKey>;
     listKeys(): Promise<AccessKey[]>;
     findOneByApiKey(apiKey: string): Promise<AccessKey>;

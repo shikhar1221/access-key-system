@@ -10,11 +10,11 @@ import { AccessKeyEventType } from '../../../shared/access-key-event'; // Add th
 
 @Injectable()
 export class AccessKeysService {
-  private readonly logger = new Logger(AccessKeysService.name);
   constructor(
     @InjectRepository(AccessKeyRepository) // Inject using @InjectRepository for TypeORM 0.2.x custom repository
     private readonly accessKeyRepository: AccessKeyRepository,
     private readonly accessKeyPublisherService: AccessKeyPublisherService,
+    private readonly logger: Logger,
   ) {}
 
   async createKey(createAccessKeyDto: CreateAccessKeyDto): Promise<AccessKey> {
