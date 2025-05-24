@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  key-management-service:
+    build:
+      context: ./key-management-service
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379
+      # Add other environment variables as needed from key-management-service/.env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./key-management-service:/app
+      - /app/node_modules
+
+  token-info-service:
+    build:
+      context: ./token-info-service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001" # Assuming token-info-service runs on a different port, update if necessary
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379
+      # Add other environment variables as needed from token-info-service/.env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./token-info-service:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
+  redis_data:
