@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Logger } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccessKey } from './entities/access-key.entity';
 import { AccessKeyRepository } from './repositories/access-key.repository';
@@ -13,7 +13,8 @@ import { AccessKeysController } from './controllers/access-keys.controller';
   providers: [
     AccessKeysService, 
     AccessKeyPublisherService, 
-    AccessKeyRepository
+    AccessKeyRepository,
+    Logger // Add Logger here
     // AccessKeyRepository is now provided by TypeOrmModule
   ],
   controllers: [AccessKeysController],

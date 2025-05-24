@@ -13,6 +13,9 @@ exports.CreateAccessKeyDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
 class CreateAccessKeyDto {
+    constructor() {
+        this.rateLimitPerMinute = 100;
+    }
 }
 __decorate([
     (0, swagger_1.ApiProperty)({ example: 'user-123', description: 'The ID of the user associated with this key' }),

@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var AccessKeysService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccessKeysService = void 0;
 const common_1 = require("@nestjs/common");
@@ -20,11 +19,11 @@ const access_key_repository_1 = require("../repositories/access-key.repository")
 const access_key_publisher_service_1 = require("./access-key-publisher.service");
 const uuid_1 = require("uuid");
 const access_key_event_1 = require("../../../shared/access-key-event");
-let AccessKeysService = AccessKeysService_1 = class AccessKeysService {
-    constructor(accessKeyRepository, accessKeyPublisherService) {
+let AccessKeysService = class AccessKeysService {
+    constructor(accessKeyRepository, accessKeyPublisherService, logger) {
         this.accessKeyRepository = accessKeyRepository;
         this.accessKeyPublisherService = accessKeyPublisherService;
-        this.logger = new common_1.Logger(AccessKeysService_1.name);
+        this.logger = logger;
     }
     async createKey(createAccessKeyDto) {
         this.logger.log('Creating new access key.');
@@ -107,11 +106,12 @@ let AccessKeysService = AccessKeysService_1 = class AccessKeysService {
         return key;
     }
 };
-AccessKeysService = AccessKeysService_1 = __decorate([
+AccessKeysService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(access_key_repository_1.AccessKeyRepository)),
     __metadata("design:paramtypes", [access_key_repository_1.AccessKeyRepository,
-        access_key_publisher_service_1.AccessKeyPublisherService])
+        access_key_publisher_service_1.AccessKeyPublisherService,
+        common_1.Logger])
 ], AccessKeysService);
 exports.AccessKeysService = AccessKeysService;
 //# sourceMappingURL=access-keys.service.js.map

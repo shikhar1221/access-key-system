@@ -34,6 +34,10 @@ let TokenInfoService = TokenInfoService_1 = class TokenInfoService {
         let isSuccessful = false;
         let isRateLimited = false;
         let errorMessage;
+        if (!apiKey) {
+            this.logger.warn(`[getTokenInfo] API Key is missing`);
+            throw new invalid_api_key_exception_1.InvalidApiKeyException('API Key is missing');
+        }
         try {
             const [keyInfo, tokenData] = await Promise.all([
                 this.duplicatedKeysService.findOne(apiKey),

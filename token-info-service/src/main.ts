@@ -23,6 +23,10 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.useGlobalFilters(new AllExceptionsFilter());
+
+  // Enable graceful shutdown
+  app.enableShutdownHooks();
+
   await app.listen(3000);
 }
 bootstrap();

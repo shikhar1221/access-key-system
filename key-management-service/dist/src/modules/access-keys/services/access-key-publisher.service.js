@@ -38,6 +38,18 @@ let AccessKeyPublisherService = AccessKeyPublisherService_1 = class AccessKeyPub
             this.logger.error(`Failed to publish ${eventType} event to ${this.eventChannel}`, error);
         }
     }
+    async onApplicationShutdown(signal) {
+        this.logger.log(`Handling shutdown signal: ${signal}`);
+        if (this.redisClient && this.redisClient.status !== 'end') {
+            try {
+                await this.redisClient.quit();
+                this.logger.log('Redis publisher client connection closed.');
+            }
+            catch (error) {
+                this.logger.error('Error closing Redis publisher client connection:', error);
+            }
+        }
+    }
 };
 AccessKeyPublisherService = AccessKeyPublisherService_1 = __decorate([
     (0, common_1.Injectable)(),
