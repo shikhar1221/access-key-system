@@ -15,9 +15,10 @@ async function bootstrap() {
     // .addBearerAuth() // Uncomment if you have JWT authentication
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document); // Swagger UI will be available at /api-docs
+  SwaggerModule.setup('api', app, document);
 
   app.useGlobalFilters(new AllExceptionsFilter());
-  await app.listen(process.env.PORT || 3000); // Use environment variable for port
+  app.enableShutdownHooks(); // Enable graceful shutdown
+  await app.listen(process.env.PORT || 5000);
 }
 bootstrap();

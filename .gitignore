@@ -139,3 +139,8 @@ dist
 **/.qodo
 **/dist
 **/node_modules
+token-info-service/package-lock.json
+token-info-service/dist/tsconfig.build.tsbuildinfo
+token-info-service/node_modules/.package-lock.json
+token-info-service/dist/tsconfig.build.tsbuildinfo
+key-management-service/dist/tsconfig.build.tsbuildinfo

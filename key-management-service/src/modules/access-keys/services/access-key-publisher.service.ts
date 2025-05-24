@@ -1,15 +1,14 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { InjectRedis } from '@nestjs-modules/ioredis'; // Corrected import path
+import { Injectable, Logger, OnApplicationShutdown } from '@nestjs/common';
+import { InjectRedis } from '@nestjs-modules/ioredis';
 import Redis from 'ioredis';
-import { AccessKeyEvent, AccessKeyEventType } from '../../../shared/access-key-event'; // Adjusted path
+import { AccessKeyEvent, AccessKeyEventType } from '../../../shared/access-key-event';
 
 @Injectable()
-export class AccessKeyPublisherService {
+export class AccessKeyPublisherService implements OnApplicationShutdown {
   private readonly logger = new Logger(AccessKeyPublisherService.name);
-  private readonly eventChannel = 'access_key_events'; // Define a specific channel name
+  private readonly eventChannel = 'access_key_events';
 
   constructor(@InjectRedis() private readonly redisClient: Redis) {}
-  // Decorators are valid on constructor parameters, the previous error might have been a temporary linter issue or due to the incorrect module import.
 
   async publishEvent(eventType: AccessKeyEventType, payload: any): Promise<void> {
     const event: AccessKeyEvent = {
@@ -23,6 +22,18 @@ export class AccessKeyPublisherService {
       this.logger.log(`Published ${eventType} event to ${this.eventChannel}: ${JSON.stringify(payload)}`);
     } catch (error) {
       this.logger.error(`Failed to publish ${eventType} event to ${this.eventChannel}`, error);
+    }
+  }
+
+  async onApplicationShutdown(signal?: string) {
+    this.logger.log(`Handling shutdown signal: ${signal}`);
+    if (this.redisClient && this.redisClient.status !== 'end') {
+      try {
+        await this.redisClient.quit();
+        this.logger.log('Redis publisher client connection closed.');
+      } catch (error) {
+        this.logger.error('Error closing Redis publisher client connection:', error);
+      }
     }
   }
 }

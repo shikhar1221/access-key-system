@@ -21,6 +21,7 @@ async function bootstrap() {
     const document = swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('api', app, document);
     app.useGlobalFilters(new all_exceptions_filter_1.AllExceptionsFilter());
+    app.enableShutdownHooks();
     await app.listen(3000);
 }
 bootstrap();

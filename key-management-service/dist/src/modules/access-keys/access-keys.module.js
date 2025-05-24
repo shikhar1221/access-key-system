@@ -24,7 +24,8 @@ AccessKeysModule = __decorate([
         providers: [
             access_keys_service_1.AccessKeysService,
             access_key_publisher_service_1.AccessKeyPublisherService,
-            access_key_repository_1.AccessKeyRepository
+            access_key_repository_1.AccessKeyRepository,
+            common_1.Logger
         ],
         controllers: [access_keys_controller_1.AccessKeysController],
         exports: [access_keys_service_1.AccessKeysService],

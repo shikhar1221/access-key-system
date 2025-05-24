@@ -29,15 +29,15 @@ let AccessKeySubscriberService = AccessKeySubscriberService_1 = class AccessKeyS
         this.subscribeToKeyEvents();
     }
     subscribeToKeyEvents() {
-        const subscriber = this.redisClient.duplicate();
-        subscriber.subscribe(KEY_MANAGEMENT_CHANNEL, (err, count) => {
+        this.subscriberClient = this.redisClient.duplicate();
+        this.subscriberClient.subscribe(KEY_MANAGEMENT_CHANNEL, (err, count) => {
             if (err) {
                 this.logger.error(`Failed to subscribe to ${KEY_MANAGEMENT_CHANNEL}: ${err.message}`);
                 return;
             }
             this.logger.log(`Subscribed to ${KEY_MANAGEMENT_CHANNEL}. Listening for messages... (${count} channels)`);
         });
-        subscriber.on('message', (channel, message) => {
+        this.subscriberClient.on('message', (channel, message) => {
             if (channel === KEY_MANAGEMENT_CHANNEL) {
                 this.logger.log(`Received message from ${channel}: ${message}`);
                 try {
@@ -53,6 +53,13 @@ let AccessKeySubscriberService = AccessKeySubscriberService_1 = class AccessKeyS
                 }
             }
         });
+    }
+    async onApplicationShutdown(signal) {
+        this.logger.log(`Handling shutdown signal: ${signal}`);
+        if (this.subscriberClient && this.subscriberClient.status !== 'end') {
+            await this.subscriberClient.quit();
+            this.logger.log('Redis subscriber client closed.');
+        }
     }
     async handleKeyEvent(event) {
         this.logger.log(`Received key event: ${JSON.stringify(event)}`);
