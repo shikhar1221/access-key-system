@@ -3,7 +3,7 @@ import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Redis } from 'ioredis';
 import { DuplicatedKeysService } from './duplicated-keys.service';
 import { CreateDuplicatedAccessKeyDto } from '../dtos/duplicated-access-key.dto';
-import { KeyManagementEvent, KeyManagementEventPayload } from '../shared/interfaces/key-management-event.interface';
+import { KeyManagementEvent, KeyManagementEventPayload } from '../../../shared/interfaces/key-management-event.interface';
 
 const KEY_MANAGEMENT_CHANNEL = 'access_key_events';
 
