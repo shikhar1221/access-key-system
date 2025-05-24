@@ -38,9 +38,17 @@ describe('AccessKeysController (e2e)', () => {
 
   afterAll(async () => {
     // Add a small delay to allow any pending database operations to complete
-    // Add a small delay to allow any pending database operations to complete
     await new Promise(resolve => setTimeout(resolve, 1000));
     if (redisService) {
+      // Explicitly close the Redis connection
+      // The method name might vary depending on the Redis client library used in RedisService
+      // Common methods are 'quit()' or 'disconnect()'
+      try {
+        // Assuming a 'quit' method exists on the underlying Redis client
+        await (redisService as any).getClient().quit();
+      } catch (error) {
+        console.error('Error closing Redis connection:', error);
+      }
       await new Promise(resolve => setTimeout(resolve, 5000));
     }
     await dataSource.destroy();
