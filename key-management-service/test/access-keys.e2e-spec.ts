@@ -41,10 +41,7 @@ describe('AccessKeysController (e2e)', () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     if (redisService) {
       // Explicitly close the Redis connection
-      // The method name might vary depending on the Redis client library used in RedisService
-      // Common methods are 'quit()' or 'disconnect()'
       try {
-        // Assuming a 'quit' method exists on the underlying Redis client
         await (redisService as any).getClient().quit();
       } catch (error) {
         console.error('Error closing Redis connection:', error);
@@ -133,9 +130,4 @@ describe('AccessKeysController (e2e)', () => {
         .expect(404);
     });
   });
-
-  // Add tests for GET /access-keys, PATCH /access-keys/:id, DELETE /access-keys/:id
-
-  // Note: Testing rate limiting requires a more complex setup, potentially involving mocking or a dedicated test environment.
-  // A basic approach might involve making multiple requests quickly and asserting a 429 status code.
 });

@@ -4,10 +4,6 @@ import { join } from 'path';
 
 config(); // Load .env file
 
-// For TypeORM 0.2.x, the data source for CLI is typically configured via ormconfig.js or ormconfig.json
-// or by passing options directly to the CLI.
-// Commenting out DataSource instantiation to avoid build errors with TypeORM 0.2.x.
-
 export default new DataSource({
   type: 'postgres' as 'postgres',
   url: process.env.DATABASE_URL,
@@ -21,7 +17,3 @@ export default new DataSource({
   synchronize: process.env.NODE_ENV === 'development', // Be cautious with synchronize in production
   logging: process.env.NODE_ENV === 'development' ? ['query', 'error'] : ['error'],
 });
-
-// Placeholder for TypeORM 0.2.x CLI configuration if needed.
-// This might involve creating an ormconfig.js or similar.
-// For now, ensuring this file doesn't cause a build error.

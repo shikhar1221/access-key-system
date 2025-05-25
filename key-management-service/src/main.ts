@@ -11,8 +11,7 @@ async function bootstrap() {
     .setTitle('Key Management Service API')
     .setDescription('API documentation for the Key Management Service')
     .setVersion('1.0')
-    .addTag('access-keys', 'Operations related to access keys') // Example tag
-    // .addBearerAuth() // Uncomment if you have JWT authentication
+    .addTag('access-keys', 'Operations related to access keys')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

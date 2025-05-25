@@ -8,16 +8,15 @@ import { AccessKeysController } from './controllers/access-keys.controller';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([AccessKey]), // Add AccessKeyRepository here for TypeORM 0.2.x
+    TypeOrmModule.forFeature([AccessKey]),
   ],
   providers: [
     AccessKeysService, 
     AccessKeyPublisherService, 
     AccessKeyRepository,
-    Logger // Add Logger here
-    // AccessKeyRepository is now provided by TypeOrmModule
+    Logger
   ],
   controllers: [AccessKeysController],
-  exports: [AccessKeysService], // Export if other modules need this service
+  exports: [AccessKeysService],
 })
 export class AccessKeysModule {}

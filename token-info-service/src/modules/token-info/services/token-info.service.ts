@@ -3,14 +3,14 @@ import { DuplicatedKeysService } from './duplicated-keys.service';
 import { RequestLogsService } from './request-logs.service';
 import { MockTokensService } from './mock-tokens.service';
 import { RateLimitingService } from './rate-limiting.service';
-import { InvalidApiKeyException } from '../shared/exceptions/invalid-api-key.exception';
-import { KeyExpiredException } from '../shared/exceptions/key-expired.exception';
-import { KeyInactiveException } from '../shared/exceptions/key-inactive.exception';
-import { TokenNotFoundException } from '../shared/exceptions/token-not-found.exception';
-import { MockToken } from '../entities/mock-token.entity';
+import { InvalidApiKeyException } from '../../../shared/exceptions/invalid-api-key.exception';
+import { KeyExpiredException } from '../../../shared/exceptions/key-expired.exception';
+import { KeyInactiveException } from '../../../shared/exceptions/key-inactive.exception';
+import { TokenNotFoundException } from '../../../shared/exceptions/token-not-found.exception';
+import { MockToken } from '../../../entities/mock-token.entity';
 import { CreateRequestLogDto } from '../dtos/request-log.dto';
-import { RateLimitExceededException } from '../shared/exceptions/rate-limit-exceeded.exception';
-import { DuplicatedAccessKey } from '../entities/duplicated-access-key.entity'; // Import DuplicatedAccessKey
+import { RateLimitExceededException } from '../../../shared/exceptions/rate-limit-exceeded.exception';
+import { DuplicatedAccessKey } from '../../../entities/duplicated-access-key.entity'; // Import DuplicatedAccessKey
 
 @Injectable()
 export class TokenInfoService {
@@ -93,8 +93,7 @@ export class TokenInfoService {
         this.logger.debug(`[getTokenInfo] Request log created successfully.`);
       } catch (logError) {
         this.logger.error(`[getTokenInfo] Failed to create request log: ${logError.message}`, logError.stack);
-        // Decide if this failure should impact the main request flow (e.g., by throwing another error)
-        // For now, we just log it, as the primary operation might have succeeded or failed independently.
+        // For now, we just log it.
       }
     }
   }

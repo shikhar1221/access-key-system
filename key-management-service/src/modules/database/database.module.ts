@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-// Remove ModuleRef import as it's not needed for forRootAsync
-// import { ModuleRef } from '@nestjs/core';
 
 @Module({
   imports: [
