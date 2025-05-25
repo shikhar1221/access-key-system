@@ -88,3 +88,5 @@ npm run start:dev # or yarn start:dev
 This will start the Token Info Service in development mode.
 
 Both services should now be running and connected to the database and Redis.
+
+PS: The swagger-doc for APIs is available at localhost:3000/api and localhost:5000/api. For testing, symbols like ETH, BTC, etc., can be used in token info service.
