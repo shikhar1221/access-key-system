@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DuplicatedAccessKey } from '../entities/duplicated-access-key.entity';
+import { DuplicatedAccessKey } from '../../../entities/duplicated-access-key.entity';
 import { CreateDuplicatedAccessKeyDto, UpdateDuplicatedAccessKeyDto } from '../dtos/duplicated-access-key.dto';
-import { DuplicatedAccessKeyRepository } from '../shared/repositories/duplicated-access-key.repository'; // Import the custom repository
+import { DuplicatedAccessKeyRepository } from '../../../shared/repositories/duplicated-access-key.repository'; // Import the custom repository
 
 @Injectable()
 export class DuplicatedKeysService {

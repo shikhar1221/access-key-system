@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Headers, UseFilters, ParseUUIDPipe } from '@nestjs/common';
-import { TokenInfoService } from '../services/token-info.service';
-import { AllExceptionsFilter } from '../shared/filters/all-exceptions.filter'; // Assuming this is the global filter
-import { MockTokenDto } from '../dtos/mock-token.dto';
+import { TokenInfoService } from './services/token-info.service';
+import { AllExceptionsFilter } from '../../shared/filters/all-exceptions.filter'; // Assuming this is the global filter
+import { MockTokenDto } from './dtos/mock-token.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('token-info')

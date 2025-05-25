@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { MockToken } from '../entities/mock-token.entity';
+import { MockToken } from '../../../entities/mock-token.entity';
 import { CreateMockTokenDto, UpdateMockTokenDto } from '../dtos/mock-token.dto';
 
 @Injectable()

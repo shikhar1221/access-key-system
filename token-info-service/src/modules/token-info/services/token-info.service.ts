@@ -10,6 +10,7 @@ import { TokenNotFoundException } from '../shared/exceptions/token-not-found.exc
 import { MockToken } from '../entities/mock-token.entity';
 import { CreateRequestLogDto } from '../dtos/request-log.dto';
 import { RateLimitExceededException } from '../shared/exceptions/rate-limit-exceeded.exception';
+import { DuplicatedAccessKey } from '../entities/duplicated-access-key.entity'; // Import DuplicatedAccessKey
 
 @Injectable()
 export class TokenInfoService {
@@ -44,23 +45,7 @@ export class TokenInfoService {
       this.logger.debug(`[getTokenInfo] Fetched keyInfo: ${JSON.stringify(keyInfo)} and tokenData: ${JSON.stringify(tokenData)}`);
 
       // 1. Key Validation
-      if (!keyInfo) {
-        this.logger.warn(`[getTokenInfo] Invalid API Key: ${apiKey}`);
-        throw new InvalidApiKeyException();
-      }
-      this.logger.debug(`[getTokenInfo] API Key found: ${apiKey}`);
-
-      if (!keyInfo.isActive) {
-        this.logger.warn(`[getTokenInfo] API Key inactive: ${apiKey}`);
-        throw new KeyInactiveException();
-      }
-      this.logger.debug(`[getTokenInfo] API Key is active: ${apiKey}`);
-
-      if (new Date(keyInfo.expiresAt) < new Date()) {
-        this.logger.warn(`[getTokenInfo] API Key expired: ${apiKey}`);
-        throw new KeyExpiredException();
-      }
-      this.logger.debug(`[getTokenInfo] API Key is not expired: ${apiKey}`);
+      await this.validateApiKey(apiKey, keyInfo); // Call the new validation method
 
       // 2. Rate Limiting
       try {
@@ -112,5 +97,29 @@ export class TokenInfoService {
         // For now, we just log it, as the primary operation might have succeeded or failed independently.
       }
     }
+  }
+
+  private async validateApiKey(apiKey: string, keyInfo: DuplicatedAccessKey | undefined): Promise<void> {
+    this.logger.debug(`[validateApiKey] Validating API Key: ${apiKey}`);
+
+    if (!keyInfo) {
+      this.logger.warn(`[validateApiKey] Invalid API Key: ${apiKey}`);
+      throw new InvalidApiKeyException();
+    }
+    this.logger.debug(`[validateApiKey] API Key found: ${apiKey}`);
+
+    if (!keyInfo.isActive) {
+      this.logger.warn(`[validateApiKey] API Key inactive: ${apiKey}`);
+      throw new KeyInactiveException();
+    }
+    this.logger.debug(`[validateApiKey] API Key is active: ${apiKey}`);
+
+    if (new Date(keyInfo.expiresAt) < new Date()) {
+      this.logger.warn(`[validateApiKey] API Key expired: ${apiKey}`);
+      throw new KeyExpiredException();
+    }
+    this.logger.debug(`[validateApiKey] API Key is not expired: ${apiKey}`);
+
+    this.logger.debug(`[validateApiKey] API Key validation successful for: ${apiKey}`);
   }
 }
