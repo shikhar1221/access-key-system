@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRedis } from '@nestjs-modules/ioredis'; // Updated import path and decorator
 import { Redis } from 'ioredis'; // Import Redis type from ioredis
-import { RateLimitExceededException } from '../shared/exceptions/rate-limit-exceeded.exception';
+import { RateLimitExceededException } from '../../../shared/exceptions/rate-limit-exceeded.exception';
 
 @Injectable()
 export class RateLimitingService {

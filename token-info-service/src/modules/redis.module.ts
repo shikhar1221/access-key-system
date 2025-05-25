@@ -1,7 +1,6 @@
 import { Module, Global } from '@nestjs/common';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { RedisModule as NestRedisModule } from '@nestjs-modules/ioredis'; // Updated import path
-import { Redis } from 'ioredis'; // Import Redis type
 
 @Global()
 @Module({

@@ -2,7 +2,7 @@ import { DataSource } from 'typeorm';
 import { DuplicatedAccessKey } from '../../entities/duplicated-access-key.entity';
 import { BaseRepository } from './base.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateDuplicatedAccessKeyDto, UpdateDuplicatedAccessKeyDto } from '../../dtos/duplicated-access-key.dto';
+import { CreateDuplicatedAccessKeyDto, UpdateDuplicatedAccessKeyDto } from '../../modules/token-info/dtos/duplicated-access-key.dto';
 
 @Injectable()
 export class DuplicatedAccessKeyRepository extends BaseRepository<DuplicatedAccessKey> {

@@ -9,7 +9,8 @@
     "format": "prettier --write 'src/**/*.ts'",
     "db:create": "createdb token_info_db || echo 'Database already exists'",
     "start:dev": "nest start --watch",
-    "test:e2e": "npx jest --config ./test/jest-e2e.json --detectOpenHandles"
+    "test:e2e": "npx jest --config ./test/jest-e2e.json --detectOpenHandles",
+    "test:unit": "jest --config ./test/jest-unit.json --detectOpenHandles"
   },
   "dependencies": {
     "@nestjs-modules/ioredis": "^2.0.2",
