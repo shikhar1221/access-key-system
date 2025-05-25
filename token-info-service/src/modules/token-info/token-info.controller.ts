@@ -19,14 +19,9 @@ export class TokenInfoController {
     @Headers('x-api-key') apiKey: string,
     @Param('symbol') symbol: string,
   ): Promise<MockTokenDto> {
-    // The request path can be constructed or passed if needed by TokenInfoService for logging
-    // For simplicity, we might not need to pass it explicitly if the service can infer or doesn't need it beyond the API key and symbol.
-    // However, the requirement states "requestPath", so let's construct it.
     const requestPath = `/token/${symbol}`;
     const tokenData = await this.tokenInfoService.getTokenInfo(apiKey, symbol, requestPath);
     
-    // Transform entity to DTO if necessary, or ensure service returns DTO directly
-    // For now, assuming TokenInfoService returns an object compatible with MockTokenDto
     return {
         symbol: tokenData.symbol,
         name: tokenData.name,

@@ -11,8 +11,5 @@ export const validationSchema = Joi.object({
   DATABASE_SYNCHRONIZE: Joi.boolean().default(true),
   DATABASE_POOL_SIZE: Joi.number().default(20),
   REDIS_URL: Joi.string().default('redis://localhost:6379'),
-  // Keep old ones if they might be used as fallbacks or for other services
-  // If not, they can be removed.
   DATABASE_URL: Joi.string().optional(), 
-  // REDIS_URL is already defined above, ensure consistency or choose one definition
 });

@@ -15,7 +15,6 @@ export default registerAs('config', () => ({
   redis: {
     url: process.env.REDIS_URL || 'redis://localhost:6379',
   },
-  // Old DATABASE_URL and REDIS_URL can be kept for backward compatibility or removed if not needed
   DATABASE_URL: process.env.DATABASE_URL || '', 
   REDIS_URL: process.env.REDIS_URL || '', // Provide default empty string if undefined
 }));

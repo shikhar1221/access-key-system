@@ -11,7 +11,7 @@ import { AccessKeyEventType } from '../../../shared/access-key-event'; // Add th
 @Injectable()
 export class AccessKeysService {
   constructor(
-    @InjectRepository(AccessKeyRepository) // Inject using @InjectRepository for TypeORM 0.2.x custom repository
+    @InjectRepository(AccessKeyRepository)
     private readonly accessKeyRepository: AccessKeyRepository,
     private readonly accessKeyPublisherService: AccessKeyPublisherService,
     private readonly logger: Logger,

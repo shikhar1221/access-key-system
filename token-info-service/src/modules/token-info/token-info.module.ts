@@ -13,7 +13,7 @@ import { MockToken } from '../../entities/mock-token.entity';
 import { RedisModule } from '../redis.module'; // Assuming a shared RedisModule exists
 import { DuplicatedAccessKeyRepository } from '../../shared/repositories/duplicated-access-key.repository'; // Import the custom repository
 
-@Global() // Make services available globally if needed, or import specifically
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -21,7 +21,7 @@ import { DuplicatedAccessKeyRepository } from '../../shared/repositories/duplica
       RequestLog,
       MockToken,
     ]),
-    RedisModule, // Ensure RedisModule provides RedisService or necessary Redis clients
+    RedisModule,
   ],
   controllers: [TokenInfoController],
   providers: [
@@ -32,7 +32,6 @@ import { DuplicatedAccessKeyRepository } from '../../shared/repositories/duplica
     RateLimitingService,
     AccessKeySubscriberService,
     DuplicatedAccessKeyRepository,
-    // RedisService might be provided by RedisModule and thus available here
   ],
   exports: [
     TokenInfoService, // Export services if they need to be used by other modules
@@ -41,7 +40,6 @@ import { DuplicatedAccessKeyRepository } from '../../shared/repositories/duplica
     MockTokensService,
     RateLimitingService,
     AccessKeySubscriberService,
-    // DuplicatedAccessKeyRepository, // Remove the custom repository from here
   ],
 })
 export class TokenInfoModule {}
