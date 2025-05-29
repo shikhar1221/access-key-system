@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import * as crypto from 'crypto';
 import { AllExceptionsFilter } from './shared/filters/all-exceptions.filter';
 import { AppModule } from './modules/app/app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'; // Added Swagger imports

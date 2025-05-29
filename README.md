@@ -9,7 +9,7 @@ This repository contains two microservices:
 
 Before running the services, ensure you have the following installed:
 
-*   Node.js (v14 or higher recommended)
+*   Node.js (v20 or higher recommended)
 *   npm or yarn
 
 ## Setup
@@ -88,5 +88,22 @@ npm run start:dev # or yarn start:dev
 This will start the Token Info Service in development mode.
 
 Both services should now be running and connected to the database and Redis.
+
+## Running with Docker Compose
+
+To run both services and their dependencies (PostgreSQL and Redis) using Docker Compose, navigate to the root directory of the project and run:
+
+```bash
+docker-compose up -d --build
+```
+
+This command will build the Docker images for both services (if they haven't been built yet or if there are changes) and start all containers in detached mode.
+
+To run tests within the Docker containers:
+
+```bash
+docker exec key_management_service npm run test:e2e
+docker exec token_info_service npm run test:e2e
+```
 
 PS: The swagger-doc for APIs is available at localhost:3000/api and localhost:5000/api. For testing, symbols like ETH, BTC, etc., can be used in token info service.
