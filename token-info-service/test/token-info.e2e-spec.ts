@@ -3,8 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/modules/app/app.module';
 import { MockTokenDto } from '../src/modules/token-info/dtos/mock-token.dto';
-import { DuplicatedKeysService } from '../src/services/duplicated-keys.service';
-import { MockTokensService } from '../src/services/mock-tokens.service';
+import { DuplicatedKeysService } from '../src/modules/token-info/services/duplicated-keys.service';
+import { MockTokensService } from '../src/modules/token-info/services/mock-tokens.service';
 import { CreateDuplicatedAccessKeyDto } from '../src/modules/token-info/dtos/duplicated-access-key.dto';
 import { DataSource } from 'typeorm'; // Import DataSource
 import { Redis } from 'ioredis'; // Import Redis type
