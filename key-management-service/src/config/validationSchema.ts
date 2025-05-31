@@ -10,6 +10,6 @@ export const validationSchema = Joi.object({
   DATABASE_NAME: Joi.string().default('key_management_db'),
   DATABASE_SYNCHRONIZE: Joi.boolean().default(true),
   DATABASE_POOL_SIZE: Joi.number().default(20),
-  REDIS_URL: Joi.string().default('redis://localhost:6379'),
+  REDIS_URL: Joi.string().default('redis://redis_cache:6379'),
   DATABASE_URL: Joi.string().optional(), 
 });
